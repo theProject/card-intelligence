@@ -1,4 +1,4 @@
-package com.example.flashintelligence
+package com.bytheproject.flashforge
 
 import org.junit.Test
 

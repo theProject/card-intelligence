@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">FlashIntelligence</string>
+    <string name="app_name">Flash Forge</string>
+    <string name="add_deck">Add Deck</string>
+    <string name="add_card">Add Card</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="flip">Flip</string>
+    <string name="deck_name">Deck Name</string>
+    <string name="deck_description">Deck Description (optional)</string>
+    <string name="question">Question</string>
+    <string name="answer">Answer</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="card_counter">Card %1$d of %2$d</string>
 </resources>

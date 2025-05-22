@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/deckListFragment">
+
+    <fragment
+        android:id="@+id/deckListFragment"
+        android:name="com.bytheproject.flashforge.ui.DeckListFragment"
+        android:label="Decks"
+        tools:layout="@layout/fragment_deck_list">
+        <action
+            android:id="@+id/action_deckListFragment_to_flashCardFragment"
+            app:destination="@id/flashCardFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/flashCardFragment"
+        android:name="com.bytheproject.flashforge.ui.FlashCardFragment"
+        android:label="Flash Cards"
+        tools:layout="@layout/fragment_flash_card">
+        <argument
+            android:name="deckId"
+            app:argType="long" />
+    </fragment>
+</navigation>
