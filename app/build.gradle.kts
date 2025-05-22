@@ -1,8 +1,12 @@
 // build.gradle.kts (Module: app)
+
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    // If you still need SafeArgs during transition to Compose Navigation:
+    // The version is provided by the buildscript classpath in your project-level build.gradle.kts
+    id("androidx.navigation.safeargs.kotlin") // Version removed here
 }
 
 android {
@@ -17,6 +21,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -27,34 +34,62 @@ android {
         }
     }
 
-    buildFeatures {
-        viewBinding = true
-    }
-
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.11" // For Kotlin plugin 1.9.22
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:android-core-ktx")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.0")
-    implementation("androidx.activity:activity-ktx:1.10.1")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.9.0")
-    implementation("androidx.navigation:navigation-ui-ktx:2.9.0")
-    implementation("androidx.recyclerview:recyclerview:1.4.0")
-    implementation("androidx.fragment:fragment-ktx:1.8.7")
+    // Core AndroidX libraries
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.google.material)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    // Lifecycle
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    // Activity
+    implementation(libs.androidx.activity.compose)
+
+    // Jetpack Compose
+    implementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.material3)
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+    // If still using fragment-based navigation during transition:
+    // implementation(libs.androidx.navigation.fragment.ktx)
+    // implementation(libs.androidx.navigation.ui.ktx)
+
+
+    // Testing
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.ui.test.junit4)
 }
