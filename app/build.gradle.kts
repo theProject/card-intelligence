@@ -46,7 +46,10 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11" // For Kotlin plugin 1.9.22
+        // For Kotlin plugin version 1.9.22, use a compatible Compose compiler extension version.
+        // 1.5.10 is compatible with Kotlin 1.9.22.
+        // Ref: https://developer.android.com/jetpack/androidx/releases/compose-kotlin
+        kotlinCompilerExtensionVersion = "1.5.10" // <<< CORRECTED VERSION HERE
     }
     packaging {
         resources {

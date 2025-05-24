@@ -1,48 +1,70 @@
-// src/main/java/com/example/flashintelligence/MainActivity.kt
-package com.bytheproject.flashforge
+package com.bytheproject.flashforge // Ensure this package name is correct
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController // It's good practice to import NavController directly
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.bytheproject.flashforge.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity // Import ComponentActivity for Compose
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme // For accessing theme colors/typography
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.bytheproject.flashforge.ui.theme.FlashForgeAppTheme // Your app's Compose theme
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() { // Inherit from ComponentActivity
 
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController // Declare NavController at class level
+    // No more ViewBinding needed for the Activity's root layout
+    // private lateinit var binding: ActivityMainBinding
+    // No more NavController for Fragment-based navigation at this level
+    // private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        // 1. Set your MaterialToolbar (with id 'topAppBar') as the ActionBar
-        // This must be done AFTER setContentView and BEFORE setupActionBarWithNavController
-        setSupportActionBar(binding.topAppBar) // 'binding.topAppBar' assumes your Toolbar's ID is 'topAppBar'
+        // Set the content of the activity using Jetpack Compose
+        setContent {
+            // Apply your custom Material 3 theme
+            FlashForgeAppTheme {
+                // A Surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background // Uses the black background from your theme
+                ) {
+                    // This is where your app's main UI structure will go.
+                    // For now, let's put a placeholder.
+                    // Later, this will be your NavHost for Compose navigation.
+                    Greeting("FlashForge with Compose!")
+                }
+            }
+        }
 
-        setupNavigation()
+        // The old setupNavigation() and onSupportNavigateUp() for Fragment-based navigation
+        // are no longer needed here. Navigation will be handled by Compose Navigation.
     }
+}
 
-    private fun setupNavigation() {
-        // Find the NavHostFragment
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        // Get the NavController from the NavHostFragment
-        navController = navHostFragment.navController // Assign to class-level variable
-
-        // 2. Set up the ActionBar to work with the NavController
-        // This will automatically update the ActionBar title and handle the Up button
-        setupActionBarWithNavController(navController)
+// Simple placeholder Composable function
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Hello $name!",
+            color = MaterialTheme.colorScheme.onBackground // Uses the white text color from your theme
+        )
     }
+}
 
-    // 3. Handle the "Up" button action in the ActionBar
-    // This is called when the user presses the Up button (back arrow) in the ActionBar
-    override fun onSupportNavigateUp(): Boolean {
-        // Let the NavController handle the Up navigation.
-        // If navController.navigateUp() returns false (meaning it's at the start destination),
-        // then fall back to the default super.onSupportNavigateUp() behavior.
-        return navController.navigateUp() || super.onSupportNavigateUp()
+// Preview for Android Studio (optional, but helpful)
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    FlashForgeAppTheme {
+        Greeting("Android")
     }
 }
