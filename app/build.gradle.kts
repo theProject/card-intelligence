@@ -4,9 +4,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
-    // If you still need SafeArgs during transition to Compose Navigation:
+    // Safe Args for existing Fragment navigation.
     // The version is provided by the buildscript classpath in your project-level build.gradle.kts
-    id("androidx.navigation.safeargs.kotlin") // Version removed here
+    id("androidx.navigation.safeargs.kotlin") // <<< Version removed here
 }
 
 android {
@@ -28,9 +28,9 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = false // TODO: Set to true and configure Proguard for actual release builds
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("debug") // TODO: Set up release signingConfig for actual release
         }
     }
 
@@ -43,13 +43,11 @@ android {
     }
 
     buildFeatures {
-        compose = true
+        viewBinding = true  // For existing XML binding classes
+        compose = true    // Enable Jetpack Compose
     }
     composeOptions {
-        // For Kotlin plugin version 1.9.22, use a compatible Compose compiler extension version.
-        // 1.5.10 is compatible with Kotlin 1.9.22.
-        // Ref: https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-        kotlinCompilerExtensionVersion = "1.5.10" // <<< CORRECTED VERSION HERE
+        kotlinCompilerExtensionVersion = "1.5.10" // For Kotlin plugin 1.9.22
     }
     packaging {
         resources {
@@ -64,7 +62,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.google.material)
 
-    // Lifecycle
+    // Lifecycle (ViewModels, LiveData, Runtime KTX)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
@@ -72,6 +70,15 @@ dependencies {
 
     // Activity
     implementation(libs.androidx.activity.compose)
+
+    // UI for existing XML-based Fragments and Adapters
+    implementation(libs.androidx.recyclerview)   // For RecyclerView & absoluteAdapterPosition
+    implementation(libs.androidx.fragment.ktx)      // For 'by viewModels()' and other fragment KTX
+    // implementation(libs.androidx.constraintlayout) // If you still use ConstraintLayout in XMLs
+
+    // Navigation for existing Fragments
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
     // Jetpack Compose
     implementation(platform(libs.androidx.compose.bom))
@@ -83,12 +90,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.material3)
 
-    // Navigation
+    // Navigation for Compose (for new Compose screens)
     implementation(libs.androidx.navigation.compose)
-    // If still using fragment-based navigation during transition:
-    // implementation(libs.androidx.navigation.fragment.ktx)
-    // implementation(libs.androidx.navigation.ui.ktx)
-
 
     // Testing
     testImplementation(libs.junit)

@@ -1,15 +1,30 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+# Built application files
+*.apk
+*.ap_
+
+# Gradle files
+.gradle/
+build/
+.cxx/
+.externalNativeBuild/
+
+# Local configuration file (SDK path, etc)
 local.properties
+
+# IDE files
+.idea/
+*.iml
+.DS_Store
+*.log
+
+# Captures
+captures/
+
+# JetBrains IDE system files
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+
+# Compose and navigation build outputs
+navigation.json
